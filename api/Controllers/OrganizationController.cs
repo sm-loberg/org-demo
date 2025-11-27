@@ -15,19 +15,19 @@ public class OrganizationController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<OrganizationModel>> Get(long id)
+    public ActionResult<OrganizationModel> Get(long id)
     {
         return Ok(OrganizationService.Get(id));
     }
 
     [HttpPost("{id}")]
-    public async Task<ActionResult<OrganizationModel>> Update(long id, OrganizationModel model)
+    public ActionResult<OrganizationModel> Update(long id, OrganizationModel model)
     {
         return Ok(OrganizationService.Update(id, model));
     }
 
     [HttpPost("create")]
-    public async Task<ActionResult<OrganizationModel>> Create(OrganizationModel model)
+    public ActionResult<OrganizationModel> Create(OrganizationModel model)
     {
         return Ok(OrganizationService.Create(model));
     }
