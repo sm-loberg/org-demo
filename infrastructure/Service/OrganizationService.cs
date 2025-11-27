@@ -1,5 +1,6 @@
 using OrgDemo.Logic;
-using OrgDemo.System;
+
+namespace OrgDemo.Infrastructure;
 
 public class OrganizationService : IOrganizationService
 {

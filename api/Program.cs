@@ -1,5 +1,5 @@
 using OrgDemo.Logic;
-using OrgDemo.System;
+using OrgDemo.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 

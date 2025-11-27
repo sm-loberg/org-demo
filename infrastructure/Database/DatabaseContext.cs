@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using OrgDemo.Logic;
 
-namespace OrgDemo.System;
+namespace OrgDemo.Infrastructure;
 
 public class DatabaseContext : DbContext
 {

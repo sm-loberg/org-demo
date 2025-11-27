@@ -1,6 +1,6 @@
 using OrgDemo.Logic;
 
-namespace OrgDemo.System;
+namespace OrgDemo.Infrastructure;
 
 public class OrganizationRepository : IOrganizationRepository
 {
