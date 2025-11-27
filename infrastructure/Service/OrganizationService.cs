@@ -13,6 +13,10 @@ public class OrganizationService : IOrganizationService
 
     public OrganizationModel Create(OrganizationModel model)
     {
+        Error.Require(OrganizationRepository.Get(model.OrganisasjonsNummer) == null, OrgDemoException.ErrorCode.OrganizationAlreadyExists);
+
+        var organization = OrganizationRepository.Create();
+
         throw new NotImplementedException();
     }
 
