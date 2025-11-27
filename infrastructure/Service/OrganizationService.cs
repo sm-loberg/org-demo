@@ -11,23 +11,36 @@ public class OrganizationService : IOrganizationService
         OrganizationRepository = organizationRepository;
     }
 
-    public OrganizationModel Create(OrganizationModel model)
+    public OrganizationModel Create(string organisasjonsNummer, OrganizationModel model)
     {
-        Error.Require(OrganizationRepository.Get(model.OrganisasjonsNummer) == null, OrgDemoException.ErrorCode.OrganizationAlreadyExists);
+        RequireNoOrganizationExists(organisasjonsNummer);
+        var organization = OrganizationRepository.Create(organisasjonsNummer);
 
-        var organization = OrganizationRepository.Create();
+        organization.UpdateFromModel(model);
 
-        throw new NotImplementedException();
-    }
-
-    public void Delete(string organisasjonsNummer)
-    {
-        throw new NotImplementedException();
+        return OrganizationModel.FromOrganization(organization);
     }
 
     public OrganizationModel Get(string organisasjonsNummer)
     {
-        throw new NotImplementedException();
+        var organization = RequireOrganization(organisasjonsNummer);
+
+        return OrganizationModel.FromOrganization(organization);
+    }
+
+    public OrganizationModel Update(string organisasjonsNummer, OrganizationModel model)
+    {
+        var organization = RequireOrganization(organisasjonsNummer);
+        
+        organization.UpdateFromModel(model);
+
+        return OrganizationModel.FromOrganization(organization);
+    }
+
+    public void Delete(string organisasjonsNummer)
+    {
+        var organization = RequireOrganization(organisasjonsNummer);
+        OrganizationRepository.Delete(organization);
     }
 
     public void Synchronize(string organisasjonsNummer)
@@ -35,8 +48,15 @@ public class OrganizationService : IOrganizationService
         throw new NotImplementedException();
     }
 
-    public OrganizationModel Update(string organisasjonsNummer, OrganizationModel model)
+    private void RequireNoOrganizationExists(string organisasjonsNummer)
     {
-        throw new NotImplementedException();
+        Error.Require(OrganizationRepository.Get(organisasjonsNummer) == null, OrgDemoException.ErrorCode.OrganizationAlreadyExists);
+    }
+
+    private Organization RequireOrganization(string organisasjonsNummer)
+    {
+        var organization = OrganizationRepository.Get(organisasjonsNummer);
+        Error.Require(organization != null, OrgDemoException.ErrorCode.OrganizationDoesntExist);
+        return organization!;
     }
 }

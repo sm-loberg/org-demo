@@ -26,10 +26,10 @@ public class OrganizationController : ControllerBase
         return Ok(OrganizationService.Update(organisasjonsNummer, model));
     }
 
-    [HttpPost("create")]
-    public ActionResult<OrganizationModel> Create(OrganizationModel model)
+    [HttpPost("{organisasjonsNummer}/create")]
+    public ActionResult<OrganizationModel> Create(string organisasjonsNummer, OrganizationModel model)
     {
-        return Ok(OrganizationService.Create(model));
+        return Ok(OrganizationService.Create(organisasjonsNummer, model));
     }
 
     [HttpPost("{organisasjonsNummer}/synchronize")]

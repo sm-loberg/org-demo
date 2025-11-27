@@ -4,23 +4,25 @@ namespace OrgDemo.Infrastructure;
 
 public class OrganizationRepository : IOrganizationRepository
 {
-    public OrganizationRepository()
+    private readonly DatabaseContext DatabaseContext;
+
+    public OrganizationRepository(DatabaseContext databaseContext)
     {
-        
+        DatabaseContext = databaseContext;
     }
 
-    public Organization Create()
+    public Organization Create(string organisasjonsNummer)
     {
-        throw new NotImplementedException();
+        return DatabaseContext.Add(new Organization(organisasjonsNummer)).Entity;
     }
 
     public void Delete(Organization organization)
     {
-        throw new NotImplementedException();
+        DatabaseContext.Remove(organization);
     }
 
-    public Organization Get(string organisasjonsNummer)
+    public Organization? Get(string organisasjonsNummer)
     {
-        throw new NotImplementedException();
+        return DatabaseContext.Organizations.Find(organisasjonsNummer);
     }
 }

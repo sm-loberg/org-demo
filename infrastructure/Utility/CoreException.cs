@@ -5,7 +5,8 @@ public class OrgDemoException : Exception
     public enum ErrorCode
     {
         InternalError,
-        OrganizationAlreadyExists
+        OrganizationAlreadyExists,
+        OrganizationDoesntExist
     }
 
     public ErrorCode Code { get; set; }

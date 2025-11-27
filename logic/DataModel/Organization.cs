@@ -14,4 +14,25 @@ public class Organization
     public Organization()
     {
     }
+
+    public Organization(string organisasjonsNummer)
+    {
+        OrganisasjonsNummer = organisasjonsNummer;
+        
+        CreatedAt = UpdatedAt = DateTime.UtcNow;
+    }
+
+    private void MarkUpdated()
+    {
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void UpdateFromModel(OrganizationModel model)
+    {
+        AntallAnsatte = model.AntallAnsatte;
+        Selskapsform = model.Selskapsform;
+        StiftelsesDato = model.StiftelsesDato;
+
+        MarkUpdated();
+    }
 }

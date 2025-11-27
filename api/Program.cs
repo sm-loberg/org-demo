@@ -1,5 +1,6 @@
 using OrgDemo.Logic;
 using OrgDemo.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IOrganizationRepository, OrganizationRepository>();
 builder.Services.AddScoped<IOrganizationService, OrganizationService>();
+builder.Services.AddDbContext<DatabaseContext>(opt => opt.UseSqlite("Filename=data.db"));
 
 var app = builder.Build();
 
