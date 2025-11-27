@@ -1,8 +1,15 @@
+using OrgDemo.Logic;
+using OrgDemo.System;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddControllers();
+
+builder.Services.AddScoped<IOrganizationRepository, OrganizationRepository>();
+builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 
 var app = builder.Build();
 
@@ -32,6 +39,8 @@ app.MapGet("/weatherforecast", () =>
     return forecast;
 })
 .WithName("GetWeatherForecast");
+
+app.MapControllers();
 
 app.Run();
 

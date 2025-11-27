@@ -1,4 +1,4 @@
-namespace OrgDemo.System;
+namespace OrgDemo.Logic;
 
 public class Organization
 {
