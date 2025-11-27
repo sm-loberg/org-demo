@@ -1,3 +1,6 @@
 .vscode/**
 */obj/**
 */bin/**
+api/data.db
+api/data.db-shm
+api/data.db-wal

@@ -19,6 +19,16 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+
+    // For quick and simple testing
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+        if(!context.Database.EnsureCreated())
+        {
+            context.Database.Migrate();
+        }
+    }
 }
 
 app.UseHttpsRedirection();
