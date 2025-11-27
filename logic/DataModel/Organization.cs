@@ -29,9 +29,9 @@ public class Organization
 
     public void UpdateFromModel(OrganizationModel model)
     {
-        AntallAnsatte = model.AntallAnsatte;
-        Selskapsform = model.Selskapsform;
-        StiftelsesDato = model.StiftelsesDato;
+        AntallAnsatte = model.AntallAnsatte ?? AntallAnsatte;
+        Selskapsform = model.Selskapsform ?? Selskapsform;
+        StiftelsesDato = model.StiftelsesDato ?? StiftelsesDato;
 
         MarkUpdated();
     }
