@@ -20,22 +20,22 @@ public class OrganizationService : IOrganizationService
         throw new NotImplementedException();
     }
 
-    public void Delete(long id)
+    public void Delete(string organisasjonsNummer)
     {
         throw new NotImplementedException();
     }
 
-    public OrganizationModel Get(long id)
+    public OrganizationModel Get(string organisasjonsNummer)
     {
         throw new NotImplementedException();
     }
 
-    public void Synchronize(long id)
+    public void Synchronize(string organisasjonsNummer)
     {
         throw new NotImplementedException();
     }
 
-    public OrganizationModel Update(long id, OrganizationModel model)
+    public OrganizationModel Update(string organisasjonsNummer, OrganizationModel model)
     {
         throw new NotImplementedException();
     }

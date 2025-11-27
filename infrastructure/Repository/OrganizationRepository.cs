@@ -19,7 +19,7 @@ public class OrganizationRepository : IOrganizationRepository
         throw new NotImplementedException();
     }
 
-    public Organization Get()
+    public Organization Get(string organisasjonsNummer)
     {
         throw new NotImplementedException();
     }

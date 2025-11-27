@@ -14,16 +14,16 @@ public class OrganizationController : ControllerBase
         OrganizationService = organizationService;
     }
 
-    [HttpGet("{id}")]
-    public ActionResult<OrganizationModel> Get(long id)
+    [HttpGet("{organisasjonsNummer}")]
+    public ActionResult<OrganizationModel> Get(string organisasjonsNummer)
     {
-        return Ok(OrganizationService.Get(id));
+        return Ok(OrganizationService.Get(organisasjonsNummer));
     }
 
-    [HttpPost("{id}")]
-    public ActionResult<OrganizationModel> Update(long id, OrganizationModel model)
+    [HttpPost("{organisasjonsNummer}")]
+    public ActionResult<OrganizationModel> Update(string organisasjonsNummer, OrganizationModel model)
     {
-        return Ok(OrganizationService.Update(id, model));
+        return Ok(OrganizationService.Update(organisasjonsNummer, model));
     }
 
     [HttpPost("create")]
@@ -32,17 +32,17 @@ public class OrganizationController : ControllerBase
         return Ok(OrganizationService.Create(model));
     }
 
-    [HttpPost("{id}/synchronize")]
-    public ActionResult Synchronize(long id)
+    [HttpPost("{organisasjonsNummer}/synchronize")]
+    public ActionResult Synchronize(string organisasjonsNummer)
     {
-        OrganizationService.Synchronize(id);
+        OrganizationService.Synchronize(organisasjonsNummer);
         return Ok();
     }
 
-    [HttpDelete("{id}")]
-    public ActionResult Delete(long id)
+    [HttpDelete("{organisasjonsNummer}")]
+    public ActionResult Delete(string organisasjonsNummer)
     {
-        OrganizationService.Delete(id);
+        OrganizationService.Delete(organisasjonsNummer);
         return Ok();
     }
 }
