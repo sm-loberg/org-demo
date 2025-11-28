@@ -2,8 +2,9 @@ namespace OrgDemo.Logic;
 
 public interface IOrganizationRepository
 {
-    public Organization Create(string organisasjonsNummer);
+    public void Create(Organization organization);
     public Organization? Get(string organisasjonsNummer);
+    public void Update(Organization organization);
     public void Delete(Organization organization);
 
 }

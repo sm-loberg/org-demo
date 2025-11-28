@@ -14,9 +14,11 @@ public class OrganizationService : IOrganizationService
     public OrganizationModel Create(string organisasjonsNummer, OrganizationModel model)
     {
         RequireNoOrganizationExists(organisasjonsNummer);
-        var organization = OrganizationRepository.Create(organisasjonsNummer);
 
+        var organization = new Organization(organisasjonsNummer);
         organization.UpdateFromModel(model);
+
+        OrganizationRepository.Create(organization);
 
         return OrganizationModel.FromOrganization(organization);
     }
@@ -33,6 +35,7 @@ public class OrganizationService : IOrganizationService
         var organization = RequireOrganization(organisasjonsNummer);
         
         organization.UpdateFromModel(model);
+        OrganizationRepository.Update(organization);
 
         return OrganizationModel.FromOrganization(organization);
     }

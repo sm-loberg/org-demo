@@ -11,18 +11,36 @@ public class OrganizationRepository : IOrganizationRepository
         DatabaseContext = databaseContext;
     }
 
-    public Organization Create(string organisasjonsNummer)
+    private Organization? Find(string organisasjonsNummer)
     {
-        return DatabaseContext.Add(new Organization(organisasjonsNummer)).Entity;
+        return DatabaseContext.Organizations.Find(organisasjonsNummer);
+    }
+
+    private void SaveChanges()
+    {
+        DatabaseContext.SaveChanges();
+    }
+
+    public void Create(Organization organization)
+    {
+        DatabaseContext.Add(organization);
+        SaveChanges();
+    }
+
+    public Organization? Get(string organisasjonsNummer)
+    {
+        return Find(organisasjonsNummer);
+    }
+
+    public void Update(Organization organization)
+    {
+        DatabaseContext.Update(organization);
+        SaveChanges();
     }
 
     public void Delete(Organization organization)
     {
         DatabaseContext.Remove(organization);
-    }
-
-    public Organization? Get(string organisasjonsNummer)
-    {
-        return DatabaseContext.Organizations.Find(organisasjonsNummer);
+        SaveChanges();
     }
 }

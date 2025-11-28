@@ -24,10 +24,8 @@ if (app.Environment.IsDevelopment())
     using (var scope = app.Services.CreateScope())
     {
         var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-        if(!context.Database.EnsureCreated())
-        {
-            context.Database.Migrate();
-        }
+        context.Database.EnsureDeleted();
+        context.Database.EnsureCreated();
     }
 }
 
