@@ -11,6 +11,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IOrganizationRepository, OrganizationRepository>();
 builder.Services.AddScoped<IOrganizationService, OrganizationService>();
+builder.Services.AddScoped<IBrregApiService, BrregApiService>();
 builder.Services.AddDbContext<DatabaseContext>(opt => opt.UseSqlite("Filename=data.db"));
 
 var app = builder.Build();

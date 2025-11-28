@@ -6,7 +6,8 @@ public class OrgDemoException : Exception
     {
         InternalError,
         OrganizationAlreadyExists,
-        OrganizationDoesntExist
+        OrganizationDoesntExist,
+        FailedToDownloadBrregOrganization
     }
 
     public ErrorCode Code { get; set; }
