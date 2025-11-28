@@ -5,10 +5,12 @@ namespace OrgDemo.Infrastructure;
 public class OrganizationService : IOrganizationService
 {
     private readonly IOrganizationRepository OrganizationRepository;
+    private readonly IBrregApiService BrregApiService;
 
-    public OrganizationService(IOrganizationRepository organizationRepository)
+    public OrganizationService(IOrganizationRepository organizationRepository, IBrregApiService brregApiService)
     {
         OrganizationRepository = organizationRepository;
+        BrregApiService = brregApiService;
     }
 
     public OrganizationModel Create(string organisasjonsNummer, OrganizationModel model)
@@ -16,6 +18,11 @@ public class OrganizationService : IOrganizationService
         RequireNoOrganizationExists(organisasjonsNummer);
 
         var organization = new Organization(organisasjonsNummer);
+
+        var brregData = BrregApiService.GetOrganization(organisasjonsNummer).Result;
+        var brregModel = brregData.ToModel();
+
+        organization.UpdateFromModel(brregModel);
         organization.UpdateFromModel(model);
 
         OrganizationRepository.Create(organization);
@@ -48,7 +55,13 @@ public class OrganizationService : IOrganizationService
 
     public void Synchronize(string organisasjonsNummer)
     {
-        throw new NotImplementedException();
+        var organization = RequireOrganization(organisasjonsNummer);
+
+        var brregData = BrregApiService.GetOrganization(organisasjonsNummer).Result;
+        var brregModel = brregData.ToModel();
+
+        organization.UpdateFromModel(brregModel);
+        OrganizationRepository.Update(organization);
     }
 
     private void RequireNoOrganizationExists(string organisasjonsNummer)
