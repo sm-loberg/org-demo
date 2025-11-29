@@ -7,7 +7,8 @@ public class OrgDemoException : Exception
         InternalError,
         OrganizationAlreadyExists,
         OrganizationDoesntExist,
-        FailedToDownloadBrregOrganization
+        FailedToDownloadBrregOrganization,
+        FailedToParseBrregOrganization
     }
 
     public ErrorCode Code { get; set; }

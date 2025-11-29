@@ -3,6 +3,8 @@ namespace OrgDemo.Logic;
 public class Organization
 {
     public string OrganisasjonsNummer { get; private set; } = "";
+    public string Navn { get; private set; } = "";
+    public List<string> Adresse { get; private set; } = [];
     public int AntallAnsatte { get; private set; } = 0;
     public string Selskapsform { get; private set; } = "";
     public DateOnly StiftelsesDato { get; private set; } = DateOnly.MinValue;
@@ -29,6 +31,8 @@ public class Organization
 
     public void UpdateFromModel(OrganizationModel model)
     {
+        Navn = model.Navn ?? Navn;
+        Adresse = model.Adresse ?? Adresse;
         AntallAnsatte = model.AntallAnsatte ?? AntallAnsatte;
         Selskapsform = model.Selskapsform ?? Selskapsform;
         StiftelsesDato = model.StiftelsesDato ?? StiftelsesDato;
