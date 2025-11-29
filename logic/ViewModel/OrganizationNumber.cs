@@ -18,7 +18,7 @@ public class OrganizationNumber
 
     public static OrganizationNumber FromString(string value)
     {
-        if(!Regex.IsMatch(value, "[89][0-9]{8}"))
+        if(!Regex.IsMatch(value, "^[89][0-9]{8}$"))
         {
             throw new OrgDemoException(OrgDemoException.ErrorCode.InvalidOrganizationNumberFormat);
         }
