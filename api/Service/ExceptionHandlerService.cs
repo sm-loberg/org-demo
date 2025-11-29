@@ -2,6 +2,8 @@ using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using OrgDemo.Logic;
 
+namespace OrgDemo.Api;
+
 public class ExceptionHandlerService : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
