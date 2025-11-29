@@ -11,6 +11,11 @@ public class OrganizationNumber
         Value = value;
     }
 
+    public OrganizationNumber(Organization organization)
+        : this(organization.OrganisasjonsNummer)
+    {
+    }
+
     public static OrganizationNumber FromString(string value)
     {
         if(!Regex.IsMatch(value, "[89][0-9]{8}"))

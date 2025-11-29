@@ -43,4 +43,15 @@ public class OrganizationRepository : IOrganizationRepository
         DatabaseContext.Remove(organization);
         SaveChanges();
     }
+
+    public List<Organization> ListAll()
+    {
+        return DatabaseContext.Organizations.ToList();
+    }
+
+    public void UpdateAll(List<Organization> organizations)
+    {
+        DatabaseContext.Organizations.UpdateRange(organizations);
+        SaveChanges();
+    }
 }

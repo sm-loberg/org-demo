@@ -19,4 +19,17 @@ public class OrganizationModel
             StiftelsesDato = organization.StiftelsesDato
         };
     }
+
+    public static OrganizationModel GetModified(OrganizationModel original, OrganizationModel current)
+    {
+        return new OrganizationModel
+        {
+            Navn =              original.Navn != current.Navn                       ? current.Navn : null,
+            Adresse = original.Adresse != null && current.Adresse != null
+                && !Enumerable.SequenceEqual(original.Adresse, current.Adresse)     ? current.Adresse : null,
+            AntallAnsatte =     original.AntallAnsatte != current.AntallAnsatte     ? current.AntallAnsatte : null,
+            Selskapsform =      original.Selskapsform != current.Selskapsform       ? current.Selskapsform : null,
+            StiftelsesDato =    original.StiftelsesDato != current.StiftelsesDato   ? current.StiftelsesDato : null
+        };
+    }
 }

@@ -7,4 +7,6 @@ public interface IOrganizationRepository
     public void Update(Organization organization);
     public void Delete(Organization organization);
 
+    public List<Organization> ListAll();
+    public void UpdateAll(List<Organization> organizations);
 }

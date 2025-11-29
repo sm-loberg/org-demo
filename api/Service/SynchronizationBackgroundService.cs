@@ -18,7 +18,7 @@ public class SynchronizationBackgroundService : BackgroundService
     {
         PeriodicTimer timer = new(SynchronizationInterval);
 
-        // Always fire immediately when starting
+        // Always fire immediately on startup, instead of waiting the initial interval
         do
         {
             using(IServiceScope scope = ServiceProvider.CreateScope())
@@ -28,7 +28,7 @@ public class SynchronizationBackgroundService : BackgroundService
                 Console.WriteLine("Running async task " + DateTime.UtcNow.ToString());
                 try
                 {
-                    organizationSynchronization.SynchronizeAll();
+                    await organizationSynchronization.SynchronizeAll();
                 }
                 catch(Exception)
                 {

@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 namespace OrgDemo.Logic;
 
 public class Organization
@@ -38,5 +40,15 @@ public class Organization
         StiftelsesDato = model.StiftelsesDato ?? StiftelsesDato;
 
         MarkUpdated();
+    }
+
+    public void SetSource(OrganizationModel model)
+    {
+        SourceJson = JsonSerializer.Serialize(model);
+    }
+
+    public OrganizationModel GetSourceModel()
+    {
+        return JsonSerializer.Deserialize<OrganizationModel>(SourceJson) ?? new OrganizationModel();
     }
 }

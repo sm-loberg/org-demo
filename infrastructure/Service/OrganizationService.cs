@@ -21,6 +21,7 @@ public class OrganizationService : IOrganizationService
 
         var brregModel = BrregApiService.GetOrganization(organisasjonsNummer).Result;
 
+        organization.SetSource(brregModel);
         organization.UpdateFromModel(brregModel);
         organization.UpdateFromModel(model);
 
@@ -57,7 +58,8 @@ public class OrganizationService : IOrganizationService
         var organization = RequireOrganization(organisasjonsNummer);
 
         var brregModel = BrregApiService.GetOrganization(organisasjonsNummer).Result;
-
+        
+        organization.SetSource(brregModel);
         organization.UpdateFromModel(brregModel);
         OrganizationRepository.Update(organization);
 
