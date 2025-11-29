@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OrgDemo.Logic;
 
@@ -15,33 +16,33 @@ public class OrganizationController : ControllerBase
     }
 
     [HttpGet("{organisasjonsNummer}")]
-    public ActionResult<OrganizationModel> Get(string organisasjonsNummer)
+    public async Task<ActionResult<OrganizationModel>> Get(string organisasjonsNummer)
     {
-        return Ok(OrganizationService.Get(OrganizationNumber.FromString(organisasjonsNummer)));
+        return Ok(await OrganizationService.Get(OrganizationNumber.FromString(organisasjonsNummer)));
     }
 
     [HttpPost("{organisasjonsNummer}")]
-    public ActionResult<OrganizationModel> Update(string organisasjonsNummer, OrganizationModel model)
+    public async Task<ActionResult<OrganizationModel>> Update(string organisasjonsNummer, OrganizationModel model)
     {
-        return Ok(OrganizationService.Update(OrganizationNumber.FromString(organisasjonsNummer), model));
+        return Ok(await OrganizationService.Update(OrganizationNumber.FromString(organisasjonsNummer), model));
     }
 
     [HttpPost("{organisasjonsNummer}/create")]
-    public ActionResult<OrganizationModel> Create(string organisasjonsNummer, OrganizationModel model)
+    public async Task<ActionResult<OrganizationModel>> Create(string organisasjonsNummer, OrganizationModel model)
     {
-        return Ok(OrganizationService.Create(OrganizationNumber.FromString(organisasjonsNummer), model));
+        return Ok(await OrganizationService.Create(OrganizationNumber.FromString(organisasjonsNummer), model));
     }
 
     [HttpGet("{organisasjonsNummer}/synchronize")]
-    public ActionResult<OrganizationModel> Synchronize(string organisasjonsNummer)
+    public async Task<ActionResult<OrganizationModel>> Synchronize(string organisasjonsNummer)
     {
-        return Ok(OrganizationService.Synchronize(OrganizationNumber.FromString(organisasjonsNummer)));
+        return Ok(await OrganizationService.Synchronize(OrganizationNumber.FromString(organisasjonsNummer)));
     }
 
     [HttpDelete("{organisasjonsNummer}")]
-    public ActionResult Delete(string organisasjonsNummer)
+    public async Task<ActionResult> Delete(string organisasjonsNummer)
     {
-        OrganizationService.Delete(OrganizationNumber.FromString(organisasjonsNummer));
+        await OrganizationService.Delete(OrganizationNumber.FromString(organisasjonsNummer));
         return Ok();
     }
 }

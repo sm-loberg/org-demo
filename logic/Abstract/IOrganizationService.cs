@@ -2,10 +2,10 @@ namespace OrgDemo.Logic;
 
 public interface IOrganizationService
 {
-    public OrganizationModel Create(OrganizationNumber organisasjonsNummer, OrganizationModel model);
-    public OrganizationModel Get(OrganizationNumber organisasjonsNummer);
-    public OrganizationModel Update(OrganizationNumber organisasjonsNummer, OrganizationModel model);
-    public void Delete(OrganizationNumber organisasjonsNummer);
+    public Task<OrganizationModel> Create(OrganizationNumber organisasjonsNummer, OrganizationModel model);
+    public Task<OrganizationModel> Get(OrganizationNumber organisasjonsNummer);
+    public Task<OrganizationModel> Update(OrganizationNumber organisasjonsNummer, OrganizationModel model);
+    public Task Delete(OrganizationNumber organisasjonsNummer);
 
-    public OrganizationModel Synchronize(OrganizationNumber organisasjonsNummer);
+    public Task<OrganizationModel> Synchronize(OrganizationNumber organisasjonsNummer);
 }

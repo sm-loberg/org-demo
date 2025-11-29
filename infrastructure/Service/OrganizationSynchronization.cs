@@ -34,7 +34,7 @@ public class OrganizationSynchronization : IOrganizationSynchronization
         // Fire off all API requests in parallell
         // NOTE: Should probably rate limit here in a practical application
         List<Task<OrganizationDownloadResult>> downloadTasks = [];
-        foreach(var organization in OrganizationRepository.ListAll())
+        foreach(var organization in await OrganizationRepository.ListAll())
         {
             downloadTasks.Add(DownloadOrganization(organization));
         }
@@ -49,6 +49,6 @@ public class OrganizationSynchronization : IOrganizationSynchronization
             data.Organization.SetSource(data.DownloadModel);
         }
         
-        OrganizationRepository.UpdateAll(results.Select(x => x.Organization).ToList());
+        await OrganizationRepository.UpdateAll(results.Select(x => x.Organization).ToList());
     }
 }

@@ -19,9 +19,10 @@ public class Organization
     {
     }
 
-    public Organization(OrganizationNumber organisasjonsNummer)
+    public Organization(OrganizationNumber organisasjonsNummer, OrganizationModel sourceModel)
     {
         OrganisasjonsNummer = organisasjonsNummer.Value;
+        SetSource(sourceModel);
         
         CreatedAt = UpdatedAt = DateTime.UtcNow;
     }

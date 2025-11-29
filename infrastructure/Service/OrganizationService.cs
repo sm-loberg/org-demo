@@ -13,70 +13,70 @@ public class OrganizationService : IOrganizationService
         BrregApiService = brregApiService;
     }
 
-    public OrganizationModel Create(OrganizationNumber organisasjonsNummer, OrganizationModel model)
+    public async Task<OrganizationModel> Create(OrganizationNumber organisasjonsNummer, OrganizationModel model)
     {
-        RequireNoOrganizationExists(organisasjonsNummer);
+        // NOTE: With async, or multiple requests, this doesn't protect against a race condition.
+        // This mostly for a nice error message, but could probably be done better.
+        await RequireNoOrganizationExists(organisasjonsNummer);
 
-        var organization = new Organization(organisasjonsNummer);
+        // NOTE: Rate-limiting might be ideal, also potential attack point.
+        var brregModel = await BrregApiService.GetOrganization(organisasjonsNummer);
 
-        var brregModel = BrregApiService.GetOrganization(organisasjonsNummer).Result;
-
-        organization.SetSource(brregModel);
+        var organization = new Organization(organisasjonsNummer, brregModel);
         organization.UpdateFromModel(brregModel);
         organization.UpdateFromModel(model);
 
-        OrganizationRepository.Create(organization);
+        await OrganizationRepository.Create(organization);
 
         return OrganizationModel.FromOrganization(organization);
     }
 
-    public OrganizationModel Get(OrganizationNumber organisasjonsNummer)
+    public async Task<OrganizationModel> Get(OrganizationNumber organisasjonsNummer)
     {
-        var organization = RequireOrganization(organisasjonsNummer);
-
+        var organization = await RequireOrganization(organisasjonsNummer);
         return OrganizationModel.FromOrganization(organization);
     }
 
-    public OrganizationModel Update(OrganizationNumber organisasjonsNummer, OrganizationModel model)
+    public async Task<OrganizationModel> Update(OrganizationNumber organisasjonsNummer, OrganizationModel model)
     {
-        var organization = RequireOrganization(organisasjonsNummer);
+        var organization = await RequireOrganization(organisasjonsNummer);
         
         organization.UpdateFromModel(model);
-        OrganizationRepository.Update(organization);
+        await OrganizationRepository.Update(organization);
 
         return OrganizationModel.FromOrganization(organization);
     }
 
-    public void Delete(OrganizationNumber organisasjonsNummer)
+    public async Task Delete(OrganizationNumber organisasjonsNummer)
     {
-        var organization = RequireOrganization(organisasjonsNummer);
-        OrganizationRepository.Delete(organization);
+        var organization = await RequireOrganization(organisasjonsNummer);
+        await OrganizationRepository.Delete(organization);
     }
 
-    public OrganizationModel Synchronize(OrganizationNumber organisasjonsNummer)
+    public async Task<OrganizationModel> Synchronize(OrganizationNumber organisasjonsNummer)
     {
-        var organization = RequireOrganization(organisasjonsNummer);
+        var organization = await RequireOrganization(organisasjonsNummer);
 
-        var brregModel = BrregApiService.GetOrganization(organisasjonsNummer).Result;
+        var brregModel = await BrregApiService.GetOrganization(organisasjonsNummer);
         
         organization.SetSource(brregModel);
         organization.UpdateFromModel(brregModel);
-        OrganizationRepository.Update(organization);
+        await OrganizationRepository.Update(organization);
 
         return OrganizationModel.FromOrganization(organization);
     }
 
-    private void RequireNoOrganizationExists(OrganizationNumber organisasjonsNummer)
+    private async Task RequireNoOrganizationExists(OrganizationNumber organisasjonsNummer)
     {
-        if(OrganizationRepository.Get(organisasjonsNummer) != null)
+        if(await OrganizationRepository.Get(organisasjonsNummer) != null)
         {
             throw new OrgDemoException(OrgDemoException.ErrorCode.OrganizationAlreadyExists);
         }
     }
-
-    private Organization RequireOrganization(OrganizationNumber organisasjonsNummer)
+    
+    private async Task<Organization> RequireOrganization(OrganizationNumber organisasjonsNummer)
     {
-        var organization = OrganizationRepository.Get(organisasjonsNummer)
+        var organization = await OrganizationRepository.Get(organisasjonsNummer)
             ?? throw new OrgDemoException(OrgDemoException.ErrorCode.OrganizationDoesntExist);
         
         return organization!;

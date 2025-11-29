@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using OrgDemo.Logic;
 
 namespace OrgDemo.Infrastructure;
@@ -11,47 +12,47 @@ public class OrganizationRepository : IOrganizationRepository
         DatabaseContext = databaseContext;
     }
 
-    private Organization? Find(OrganizationNumber organisasjonsNummer)
+    private async Task<Organization?> Find(OrganizationNumber organisasjonsNummer)
     {
-        return DatabaseContext.Organizations.Find(organisasjonsNummer.Value);
+        return await DatabaseContext.Organizations.FindAsync(organisasjonsNummer.Value);
     }
 
-    private void SaveChanges()
+    private async Task SaveChanges()
     {
-        DatabaseContext.SaveChanges();
+        await DatabaseContext.SaveChangesAsync();
     }
 
-    public void Create(Organization organization)
+    public async Task Create(Organization organization)
     {
         DatabaseContext.Add(organization);
-        SaveChanges();
+        await SaveChanges();
     }
 
-    public Organization? Get(OrganizationNumber organisasjonsNummer)
+    public async Task<Organization?> Get(OrganizationNumber organisasjonsNummer)
     {
-        return Find(organisasjonsNummer);
+        return await Find(organisasjonsNummer);
     }
 
-    public void Update(Organization organization)
+    public async Task Update(Organization organization)
     {
         DatabaseContext.Update(organization);
-        SaveChanges();
+        await SaveChanges();
     }
 
-    public void Delete(Organization organization)
+    public async Task Delete(Organization organization)
     {
         DatabaseContext.Remove(organization);
-        SaveChanges();
+        await SaveChanges();
     }
 
-    public List<Organization> ListAll()
+    public async Task<List<Organization>> ListAll()
     {
-        return DatabaseContext.Organizations.ToList();
+        return await DatabaseContext.Organizations.ToListAsync();
     }
 
-    public void UpdateAll(List<Organization> organizations)
+    public async Task UpdateAll(List<Organization> organizations)
     {
         DatabaseContext.Organizations.UpdateRange(organizations);
-        SaveChanges();
+        await SaveChanges();
     }
 }
