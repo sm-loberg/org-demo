@@ -19,8 +19,7 @@ public class OrganizationService : IOrganizationService
 
         var organization = new Organization(organisasjonsNummer);
 
-        var brregData = BrregApiService.GetOrganization(organisasjonsNummer).Result;
-        var brregModel = brregData.ToModel();
+        var brregModel = BrregApiService.GetOrganization(organisasjonsNummer).Result;
 
         organization.UpdateFromModel(brregModel);
         organization.UpdateFromModel(model);
@@ -53,15 +52,16 @@ public class OrganizationService : IOrganizationService
         OrganizationRepository.Delete(organization);
     }
 
-    public void Synchronize(string organisasjonsNummer)
+    public OrganizationModel Synchronize(string organisasjonsNummer)
     {
         var organization = RequireOrganization(organisasjonsNummer);
 
-        var brregData = BrregApiService.GetOrganization(organisasjonsNummer).Result;
-        var brregModel = brregData.ToModel();
+        var brregModel = BrregApiService.GetOrganization(organisasjonsNummer).Result;
 
         organization.UpdateFromModel(brregModel);
         OrganizationRepository.Update(organization);
+
+        return OrganizationModel.FromOrganization(organization);
     }
 
     private void RequireNoOrganizationExists(string organisasjonsNummer)

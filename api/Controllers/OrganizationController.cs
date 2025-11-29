@@ -32,11 +32,10 @@ public class OrganizationController : ControllerBase
         return Ok(OrganizationService.Create(organisasjonsNummer, model));
     }
 
-    [HttpPost("{organisasjonsNummer}/synchronize")]
-    public ActionResult Synchronize(string organisasjonsNummer)
+    [HttpGet("{organisasjonsNummer}/synchronize")]
+    public ActionResult<OrganizationModel> Synchronize(string organisasjonsNummer)
     {
-        OrganizationService.Synchronize(organisasjonsNummer);
-        return Ok();
+        return Ok(OrganizationService.Synchronize(organisasjonsNummer));
     }
 
     [HttpDelete("{organisasjonsNummer}")]

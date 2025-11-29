@@ -7,5 +7,5 @@ public interface IOrganizationService
     public OrganizationModel Update(string organisasjonsNummer, OrganizationModel model);
     public void Delete(string organisasjonsNummer);
 
-    public void Synchronize(string organisasjonsNummer);
+    public OrganizationModel Synchronize(string organisasjonsNummer);
 }
