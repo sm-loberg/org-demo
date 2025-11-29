@@ -17,31 +17,31 @@ public class OrganizationController : ControllerBase
     [HttpGet("{organisasjonsNummer}")]
     public ActionResult<OrganizationModel> Get(string organisasjonsNummer)
     {
-        return Ok(OrganizationService.Get(organisasjonsNummer));
+        return Ok(OrganizationService.Get(OrganizationNumber.FromString(organisasjonsNummer)));
     }
 
     [HttpPost("{organisasjonsNummer}")]
     public ActionResult<OrganizationModel> Update(string organisasjonsNummer, OrganizationModel model)
     {
-        return Ok(OrganizationService.Update(organisasjonsNummer, model));
+        return Ok(OrganizationService.Update(OrganizationNumber.FromString(organisasjonsNummer), model));
     }
 
     [HttpPost("{organisasjonsNummer}/create")]
     public ActionResult<OrganizationModel> Create(string organisasjonsNummer, OrganizationModel model)
     {
-        return Ok(OrganizationService.Create(organisasjonsNummer, model));
+        return Ok(OrganizationService.Create(OrganizationNumber.FromString(organisasjonsNummer), model));
     }
 
     [HttpGet("{organisasjonsNummer}/synchronize")]
     public ActionResult<OrganizationModel> Synchronize(string organisasjonsNummer)
     {
-        return Ok(OrganizationService.Synchronize(organisasjonsNummer));
+        return Ok(OrganizationService.Synchronize(OrganizationNumber.FromString(organisasjonsNummer)));
     }
 
     [HttpDelete("{organisasjonsNummer}")]
     public ActionResult Delete(string organisasjonsNummer)
     {
-        OrganizationService.Delete(organisasjonsNummer);
+        OrganizationService.Delete(OrganizationNumber.FromString(organisasjonsNummer));
         return Ok();
     }
 }

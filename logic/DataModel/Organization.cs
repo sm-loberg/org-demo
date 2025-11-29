@@ -15,9 +15,9 @@ public class Organization
     {
     }
 
-    public Organization(string organisasjonsNummer)
+    public Organization(OrganizationNumber organisasjonsNummer)
     {
-        OrganisasjonsNummer = organisasjonsNummer;
+        OrganisasjonsNummer = organisasjonsNummer.Value;
         
         CreatedAt = UpdatedAt = DateTime.UtcNow;
     }

@@ -11,9 +11,9 @@ public class OrganizationRepository : IOrganizationRepository
         DatabaseContext = databaseContext;
     }
 
-    private Organization? Find(string organisasjonsNummer)
+    private Organization? Find(OrganizationNumber organisasjonsNummer)
     {
-        return DatabaseContext.Organizations.Find(organisasjonsNummer);
+        return DatabaseContext.Organizations.Find(organisasjonsNummer.Value);
     }
 
     private void SaveChanges()
@@ -27,7 +27,7 @@ public class OrganizationRepository : IOrganizationRepository
         SaveChanges();
     }
 
-    public Organization? Get(string organisasjonsNummer)
+    public Organization? Get(OrganizationNumber organisasjonsNummer)
     {
         return Find(organisasjonsNummer);
     }

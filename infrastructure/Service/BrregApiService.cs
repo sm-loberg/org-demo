@@ -27,10 +27,10 @@ public class BrregApiService : IBrregApiService
         GetOrganizationUrl = configuration["Brreg:EnheterUrl"];
     }
 
-    public async Task<OrganizationModel> GetOrganization(string organisasjonsNummer)
+    public async Task<OrganizationModel> GetOrganization(OrganizationNumber organisasjonsNummer)
     {
         // TODO: Stricter assurance of organissasjonsNummer to prevent possible arbitrary-string security issue
-        var response = await HttpClient.GetAsync(GetOrganizationUrl + organisasjonsNummer);
+        var response = await HttpClient.GetAsync(GetOrganizationUrl + organisasjonsNummer.Value);
         Error.Require(response.IsSuccessStatusCode, OrgDemoException.ErrorCode.FailedToDownloadBrregOrganization);
 
         var json = await response.Content.ReadFromJsonAsync<BrregJson>();

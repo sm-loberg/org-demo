@@ -13,7 +13,7 @@ public class OrganizationService : IOrganizationService
         BrregApiService = brregApiService;
     }
 
-    public OrganizationModel Create(string organisasjonsNummer, OrganizationModel model)
+    public OrganizationModel Create(OrganizationNumber organisasjonsNummer, OrganizationModel model)
     {
         RequireNoOrganizationExists(organisasjonsNummer);
 
@@ -29,14 +29,14 @@ public class OrganizationService : IOrganizationService
         return OrganizationModel.FromOrganization(organization);
     }
 
-    public OrganizationModel Get(string organisasjonsNummer)
+    public OrganizationModel Get(OrganizationNumber organisasjonsNummer)
     {
         var organization = RequireOrganization(organisasjonsNummer);
 
         return OrganizationModel.FromOrganization(organization);
     }
 
-    public OrganizationModel Update(string organisasjonsNummer, OrganizationModel model)
+    public OrganizationModel Update(OrganizationNumber organisasjonsNummer, OrganizationModel model)
     {
         var organization = RequireOrganization(organisasjonsNummer);
         
@@ -46,13 +46,13 @@ public class OrganizationService : IOrganizationService
         return OrganizationModel.FromOrganization(organization);
     }
 
-    public void Delete(string organisasjonsNummer)
+    public void Delete(OrganizationNumber organisasjonsNummer)
     {
         var organization = RequireOrganization(organisasjonsNummer);
         OrganizationRepository.Delete(organization);
     }
 
-    public OrganizationModel Synchronize(string organisasjonsNummer)
+    public OrganizationModel Synchronize(OrganizationNumber organisasjonsNummer)
     {
         var organization = RequireOrganization(organisasjonsNummer);
 
@@ -64,12 +64,12 @@ public class OrganizationService : IOrganizationService
         return OrganizationModel.FromOrganization(organization);
     }
 
-    private void RequireNoOrganizationExists(string organisasjonsNummer)
+    private void RequireNoOrganizationExists(OrganizationNumber organisasjonsNummer)
     {
         Error.Require(OrganizationRepository.Get(organisasjonsNummer) == null, OrgDemoException.ErrorCode.OrganizationAlreadyExists);
     }
 
-    private Organization RequireOrganization(string organisasjonsNummer)
+    private Organization RequireOrganization(OrganizationNumber organisasjonsNummer)
     {
         var organization = OrganizationRepository.Get(organisasjonsNummer);
         Error.Require(organization != null, OrgDemoException.ErrorCode.OrganizationDoesntExist);

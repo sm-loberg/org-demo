@@ -4,7 +4,8 @@ public class LogicException : Exception
 {
     public enum ErrorCode
     {
-        OrganizationAlreadyExists
+        OrganizationAlreadyExists,
+        InvalidOrganizationNumberFormat
     }
 
     public ErrorCode Code { get; set; }
