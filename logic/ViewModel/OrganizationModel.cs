@@ -20,16 +20,23 @@ public class OrganizationModel
         };
     }
 
+    private static T? GetChangedValue<T>(T? original, T? current)
+    {
+        return !EqualityComparer<T>.Default.Equals(original, current)
+            ? current ?? original
+            : default;
+    }
+
     public static OrganizationModel GetModified(OrganizationModel original, OrganizationModel current)
     {
         return new OrganizationModel
         {
-            Navn =              original.Navn != current.Navn                       ? current.Navn : null,
+            Navn =              GetChangedValue(original.Navn, current.Navn),
             Adresse = original.Adresse != null && current.Adresse != null
-                && !Enumerable.SequenceEqual(original.Adresse, current.Adresse)     ? current.Adresse : null,
-            AntallAnsatte =     original.AntallAnsatte != current.AntallAnsatte     ? current.AntallAnsatte : null,
-            Selskapsform =      original.Selskapsform != current.Selskapsform       ? current.Selskapsform : null,
-            StiftelsesDato =    original.StiftelsesDato != current.StiftelsesDato   ? current.StiftelsesDato : null
+                && !Enumerable.SequenceEqual(original.Adresse, current.Adresse)     ? current.Adresse : original.Adresse,
+            AntallAnsatte =     GetChangedValue(original.AntallAnsatte, current.AntallAnsatte),
+            Selskapsform =      GetChangedValue(original.Selskapsform, current.Selskapsform),
+            StiftelsesDato =    GetChangedValue(original.StiftelsesDato, current.StiftelsesDato)
         };
     }
 }
