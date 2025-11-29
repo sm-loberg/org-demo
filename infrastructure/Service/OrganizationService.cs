@@ -68,13 +68,17 @@ public class OrganizationService : IOrganizationService
 
     private void RequireNoOrganizationExists(OrganizationNumber organisasjonsNummer)
     {
-        Error.Require(OrganizationRepository.Get(organisasjonsNummer) == null, OrgDemoException.ErrorCode.OrganizationAlreadyExists);
+        if(OrganizationRepository.Get(organisasjonsNummer) != null)
+        {
+            throw new OrgDemoException(OrgDemoException.ErrorCode.OrganizationAlreadyExists);
+        }
     }
 
     private Organization RequireOrganization(OrganizationNumber organisasjonsNummer)
     {
-        var organization = OrganizationRepository.Get(organisasjonsNummer);
-        Error.Require(organization != null, OrgDemoException.ErrorCode.OrganizationDoesntExist);
+        var organization = OrganizationRepository.Get(organisasjonsNummer)
+            ?? throw new OrgDemoException(OrgDemoException.ErrorCode.OrganizationDoesntExist);
+        
         return organization!;
     }
 }

@@ -1,4 +1,4 @@
-namespace OrgDemo.Infrastructure;
+namespace OrgDemo.Logic;
 
 public class OrgDemoException : Exception
 {
@@ -8,13 +8,23 @@ public class OrgDemoException : Exception
         OrganizationAlreadyExists,
         OrganizationDoesntExist,
         FailedToDownloadBrregOrganization,
-        FailedToParseBrregOrganization
+        FailedToParseBrregOrganization,
+
+        InvalidOrganizationNumberFormat
     }
 
-    public ErrorCode Code { get; set; }
+    public ErrorCode Code { get; private set; }
 
     public OrgDemoException(ErrorCode code)
     {
         Code = code;
+    }
+
+    public ErrorModel ToModel()
+    {
+        return new ErrorModel
+        {
+            ErrorCode = Code.ToString()
+        };
     }
 }

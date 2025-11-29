@@ -37,9 +37,11 @@ public class BrregApiService : IBrregApiService
 
     public async Task<OrganizationModel> GetOrganization(OrganizationNumber organisasjonsNummer)
     {
-        // TODO: Stricter assurance of organissasjonsNummer to prevent possible arbitrary-string security issue
         var response = await HttpClient.GetAsync(GetOrganizationUrl + organisasjonsNummer.Value);
-        Error.Require(response.IsSuccessStatusCode, OrgDemoException.ErrorCode.FailedToDownloadBrregOrganization);
+        if(!response.IsSuccessStatusCode)
+        {
+            throw new OrgDemoException(OrgDemoException.ErrorCode.FailedToDownloadBrregOrganization);
+        }
 
         var json = await response.Content.ReadFromJsonAsync<BrregJson>()
             ?? throw new OrgDemoException(OrgDemoException.ErrorCode.FailedToParseBrregOrganization);

@@ -20,7 +20,7 @@ public class OrganizationNumber
     {
         if(!Regex.IsMatch(value, "[89][0-9]{8}"))
         {
-            throw new LogicException(LogicException.ErrorCode.InvalidOrganizationNumberFormat);
+            throw new OrgDemoException(OrgDemoException.ErrorCode.InvalidOrganizationNumberFormat);
         }
 
         return new OrganizationNumber(value);

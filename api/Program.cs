@@ -15,6 +15,8 @@ builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 builder.Services.AddScoped<IBrregApiService, BrregApiService>();
 builder.Services.AddScoped<IOrganizationSynchronization, OrganizationSynchronization>();
 builder.Services.AddHostedService<SynchronizationBackgroundService>();
+builder.Services.AddExceptionHandler<ExceptionHandlerService>();
+builder.Services.AddProblemDetails();
 builder.Services.AddDbContext<DatabaseContext>(opt => opt.UseSqlite("Filename=data.db"));
 
 var app = builder.Build();
@@ -34,6 +36,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseExceptionHandler();
 
 app.MapControllers();
 
