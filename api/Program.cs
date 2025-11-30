@@ -41,3 +41,6 @@ app.UseExceptionHandler();
 app.MapControllers();
 
 app.Run();
+
+// To expose the entry-point to the integration test
+public partial class Program { }
