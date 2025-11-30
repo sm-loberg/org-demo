@@ -96,7 +96,7 @@ public class SynchronizationTests : IClassFixture<SynchronizationFactory<Program
             {
                 Navn = "Custom Services AS",
                 Adresse = ["59°10'37.1\"N", "10°13'04.6\"E"],
-                AntallAnsatte = 999,
+                AntallAnsatte = 75,
                 Selskapsform = "ES",
                 StiftelsesDato = new DateOnly(1999, 1, 1)
             },
