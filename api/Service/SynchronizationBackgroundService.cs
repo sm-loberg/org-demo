@@ -25,7 +25,6 @@ public class SynchronizationBackgroundService : BackgroundService
             {
                 var organizationSynchronization = scope.ServiceProvider.GetRequiredService<IOrganizationSynchronization>();
                 
-                Console.WriteLine("Running async task " + DateTime.UtcNow.ToString());
                 try
                 {
                     await organizationSynchronization.SynchronizeAll();
