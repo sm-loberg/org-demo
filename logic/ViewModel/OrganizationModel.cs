@@ -22,9 +22,18 @@ public class OrganizationModel
 
     private static T? GetChangedValue<T>(T? original, T? current)
     {
-        return !EqualityComparer<T>.Default.Equals(original, current)
-            ? current ?? original
-            : default;
+        return EqualityComparer<T>.Default.Equals(original, current)
+            ? default
+            : current;
+    }
+
+    private static List<string>? GetChangedSequence(List<string>? original, List<string>? current)
+    {
+        if(original != null && current != null)
+        {
+            return Enumerable.SequenceEqual(original, current) ? null : current;
+        }
+        return current;
     }
 
     public static OrganizationModel GetModified(OrganizationModel original, OrganizationModel current)
@@ -32,8 +41,7 @@ public class OrganizationModel
         return new OrganizationModel
         {
             Navn =              GetChangedValue(original.Navn, current.Navn),
-            Adresse = original.Adresse != null && current.Adresse != null
-                && !Enumerable.SequenceEqual(original.Adresse, current.Adresse)     ? current.Adresse : original.Adresse,
+            Adresse =           GetChangedSequence(original.Adresse, current.Adresse),
             AntallAnsatte =     GetChangedValue(original.AntallAnsatte, current.AntallAnsatte),
             Selskapsform =      GetChangedValue(original.Selskapsform, current.Selskapsform),
             StiftelsesDato =    GetChangedValue(original.StiftelsesDato, current.StiftelsesDato)
