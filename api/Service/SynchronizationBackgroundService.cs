@@ -1,4 +1,4 @@
-using OrgDemo.Logic;
+using OrgDemo.Infrastructure;
 
 namespace OrgDemo.Api;
 

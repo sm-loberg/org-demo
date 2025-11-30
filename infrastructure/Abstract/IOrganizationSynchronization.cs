@@ -1,4 +1,4 @@
-namespace OrgDemo.Logic;
+namespace OrgDemo.Infrastructure;
 
 public interface IOrganizationSynchronization
 {

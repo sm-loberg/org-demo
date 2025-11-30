@@ -1,4 +1,6 @@
-namespace OrgDemo.Logic;
+using OrgDemo.Logic;
+
+namespace OrgDemo.Infrastructure;
 
 public interface IBrregApiService
 {
