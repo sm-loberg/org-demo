@@ -4,7 +4,7 @@ namespace OrgDemo.IntTest;
 
 public class BrregApiServiceMock : IBrregApiService
 {
-    public static Dictionary<string, OrganizationModel> MockData = new Dictionary<string, OrganizationModel>
+    public Dictionary<string, OrganizationModel> MockData = new Dictionary<string, OrganizationModel>
     {
         {
             "919300388",
@@ -40,6 +40,11 @@ public class BrregApiServiceMock : IBrregApiService
             }
         },
     };
+
+    public void ReplaceMockData(OrganizationNumber orgNr, OrganizationModel newModel)
+    {
+        MockData[orgNr.Value] = newModel;
+    }
 
     public Task<OrganizationModel> GetOrganization(OrganizationNumber organisasjonsNummer)
     {

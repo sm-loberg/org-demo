@@ -29,10 +29,9 @@ public class TestOrganizationModel
         }, OrganizationModel.FromOrganization(testOrganization));
     }
 
-    [Fact]
-    public void TestModified()
+    public static List<object[]> TestOrganizationModelChanged => new()
     {
-        Assert.Equivalent(
+        new object[] {
             new OrganizationModel
             {
                 Navn = null,
@@ -41,27 +40,24 @@ public class TestOrganizationModel
                 Selskapsform = null,
                 StiftelsesDato = null
             },
-            OrganizationModel.GetModified(
-                new OrganizationModel
-                {
-                    Navn = null,
-                    Adresse = null,
-                    AntallAnsatte = null,
-                    Selskapsform = null,
-                    StiftelsesDato = null
-                },
-                new OrganizationModel
-                {
-                    Navn = null,
-                    Adresse = null,
-                    AntallAnsatte = null,
-                    Selskapsform = null,
-                    StiftelsesDato = null
-                }
-            )
-        );
-
-        Assert.Equivalent(
+            new OrganizationModel
+            {
+                Navn = null,
+                Adresse = null,
+                AntallAnsatte = null,
+                Selskapsform = null,
+                StiftelsesDato = null
+            },
+            new OrganizationModel
+            {
+                Navn = null,
+                Adresse = null,
+                AntallAnsatte = null,
+                Selskapsform = null,
+                StiftelsesDato = null
+            }
+        },
+        new object[] {
             new OrganizationModel
             {
                 Navn = "Original",
@@ -70,82 +66,114 @@ public class TestOrganizationModel
                 Selskapsform = "Org",
                 StiftelsesDato = new DateOnly(2025, 1, 1)
             },
-            OrganizationModel.GetModified(
-                new OrganizationModel
-                {
-                    Navn = "Original",
-                    Adresse = ["A", "B"],
-                    AntallAnsatte = 1,
-                    Selskapsform = "Org",
-                    StiftelsesDato = new DateOnly(2025, 1, 1)
-                },
-                new OrganizationModel
-                {
-                    Navn = null,
-                    Adresse = null,
-                    AntallAnsatte = null,
-                    Selskapsform = null,
-                    StiftelsesDato = null
-                }
-            )
-        );
-
-        Assert.Equivalent(
             new OrganizationModel
             {
-                Navn = "Changed",
-                Adresse = ["C"],
-                AntallAnsatte = 1,
-                Selskapsform = "Org",
-                StiftelsesDato = new DateOnly(2025, 1, 1)
+                Navn = null,
+                Adresse = null,
+                AntallAnsatte = null,
+                Selskapsform = null,
+                StiftelsesDato = null
             },
-            OrganizationModel.GetModified(
-                new OrganizationModel
-                {
-                    Navn = "Original",
-                    Adresse = ["A", "B"],
-                    AntallAnsatte = 1,
-                    Selskapsform = "Org",
-                    StiftelsesDato = new DateOnly(2025, 1, 1)
-                },
-                new OrganizationModel
-                {
-                    Navn = "Changed",
-                    Adresse = ["C"],
-                    AntallAnsatte = null,
-                    Selskapsform = null,
-                    StiftelsesDato = null
-                }
-            )
-        );
-
-        Assert.Equivalent(
             new OrganizationModel
             {
-                Navn = "Changed",
-                Adresse = ["C", "H", "A"],
-                AntallAnsatte = 2,
-                Selskapsform = "Other",
-                StiftelsesDato = new DateOnly(2025, 10, 2)
+                Navn = null,
+                Adresse = null,
+                AntallAnsatte = null,
+                Selskapsform = null,
+                StiftelsesDato = null
             },
-            OrganizationModel.GetModified(
-                new OrganizationModel
-                {
-                    Navn = "Original",
-                    Adresse = ["A", "B"],
-                    AntallAnsatte = 1,
-                    Selskapsform = "Org",
-                    StiftelsesDato = new DateOnly(2025, 1, 1)
-                },
-                new OrganizationModel
-                {
-                    Navn = "Changed",
-                    Adresse = ["C", "H", "A"],
-                    AntallAnsatte = 2,
-                    Selskapsform = "Other",
-                    StiftelsesDato = new DateOnly(2025, 10, 2)
-                }
-            )
+        },
+        new object[] {
+            new OrganizationModel
+            {
+                Navn = "KOMPLETT SERVICES AS",
+                Adresse = ["Østre Kullerød 4"],
+                AntallAnsatte = 295,
+                Selskapsform = "AS",
+                StiftelsesDato = new DateOnly(1998, 1, 1)
+            },
+            new OrganizationModel
+            {
+                Navn = "Custom Services AS",
+                Adresse = ["Østre Kullerød 4"],
+                AntallAnsatte = 295,
+                Selskapsform = "AS",
+                StiftelsesDato = new DateOnly(1998, 1, 1)
+            },
+            new OrganizationModel
+            {
+                Navn = "Custom Services AS",
+                Adresse = null,
+                AntallAnsatte = null,
+                Selskapsform = null,
+                StiftelsesDato = null
+            },
+        },
+        new object[] {
+            new OrganizationModel
+            {
+                Navn = null,
+                Adresse = null,
+                AntallAnsatte = null,
+                Selskapsform = null,
+                StiftelsesDato = null
+            },
+            new OrganizationModel
+            {
+                Navn = "KOMPLETT SERVICES AS",
+                Adresse = ["Østre Kullerød 4"],
+                AntallAnsatte = 295,
+                Selskapsform = "AS",
+                StiftelsesDato = new DateOnly(1998, 1, 1)
+            },
+            new OrganizationModel
+            {
+                Navn = "KOMPLETT SERVICES AS",
+                Adresse = ["Østre Kullerød 4"],
+                AntallAnsatte = 295,
+                Selskapsform = "AS",
+                StiftelsesDato = new DateOnly(1998, 1, 1)
+            },
+        },
+        new object[] {
+            new OrganizationModel { Adresse = null },
+            new OrganizationModel { Adresse = null },
+            new OrganizationModel { Adresse = null },
+        },
+        new object[] {
+            new OrganizationModel { Adresse = ["Østre Kullerød 4"] },
+            new OrganizationModel { Adresse = null },
+            new OrganizationModel { Adresse = null },
+        },
+        new object[] {
+            new OrganizationModel { Adresse = null },
+            new OrganizationModel { Adresse = ["Østre Kullerød 4"] },
+            new OrganizationModel { Adresse = ["Østre Kullerød 4"] },
+        },
+        new object[] {
+            new OrganizationModel { Adresse = ["Østre Kullerød 4"] },
+            new OrganizationModel { Adresse = ["Vestre Kullerød 6"] },
+            new OrganizationModel { Adresse = ["Vestre Kullerød 6"] },
+        },
+        new object[] {
+            new OrganizationModel { Adresse = ["V1", "V2"] },
+            new OrganizationModel { Adresse = ["V1", "V2"] },
+            new OrganizationModel { Adresse = null },
+        },
+        new object[] {
+            new OrganizationModel { Adresse = ["V1", "V2"] },
+            new OrganizationModel { Adresse = ["V1"] },
+            new OrganizationModel { Adresse = ["V1"] },
+        },
+    };
+
+    [Theory]
+    [MemberData(nameof(TestOrganizationModelChanged))]
+    public void TestModified(OrganizationModel original, OrganizationModel modified, OrganizationModel expected)
+    {
+        Assert.Equivalent(
+            expected,
+            OrganizationModel.GetModified(original, modified)
         );
     }
 }
