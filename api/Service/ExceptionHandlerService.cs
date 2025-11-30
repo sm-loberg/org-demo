@@ -17,6 +17,15 @@ public class ExceptionHandlerService : IExceptionHandler
             return true;
         }
 
+        if (exception is HttpRequestException)
+        {
+            ErrorModel errorModel = new OrgDemoException(OrgDemoException.ErrorCode.InternalError).ToModel();
+
+            httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            await httpContext.Response.WriteAsJsonAsync(errorModel, cancellationToken);
+            return true;
+        }
+
         return false;
     }
 }
