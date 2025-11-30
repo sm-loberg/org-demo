@@ -110,6 +110,15 @@ public class BasicApiTests : IClassFixture<ApiFactory<Program>>
         );
     }
 
+    private static readonly OrganizationModel OriginalPower = new()
+    {
+        Navn = "POWER NORGE AS",
+        Adresse = ["Solheimveien 6"],
+        AntallAnsatte = 2060,
+        Selskapsform = "AS",
+        StiftelsesDato = new DateOnly(1996, 12, 9)
+    };
+
     public static List<object[]> TestNormalFlowData => new()
     {
         new object[] {
@@ -126,21 +135,28 @@ public class BasicApiTests : IClassFixture<ApiFactory<Program>>
                 AntallAnsatte = 5,
                 Selskapsform = "AS",
                 StiftelsesDato = new DateOnly(1996, 12, 9)
-            }
-        },
-        new object[] {
-            "977047838",
-            new OrganizationModel
-            {
             },
             new OrganizationModel
             {
-                Navn = "POWER NORGE AS",
-                Adresse = ["Solheimveien 6"],
-                AntallAnsatte = 2060,
+                Navn = "POWER"
+            },
+            new OrganizationModel
+            {
+                Navn = "POWER",
+                Adresse = ["A", "B", "C"],
+                AntallAnsatte = 5,
                 Selskapsform = "AS",
                 StiftelsesDato = new DateOnly(1996, 12, 9)
-            }
+            },
+            OriginalPower
+        },
+        new object[] {
+            "977047838",
+            new OrganizationModel {},
+            OriginalPower,
+            OriginalPower,
+            OriginalPower,
+            OriginalPower
         },
         new object[] {
             "977047838",
@@ -159,7 +175,17 @@ public class BasicApiTests : IClassFixture<ApiFactory<Program>>
                 AntallAnsatte = 1,
                 Selskapsform = "XY",
                 StiftelsesDato = new DateOnly(1996, 12, 8)
-            }
+            },
+            new OrganizationModel {},
+            new OrganizationModel
+            {
+                Navn = "A",
+                Adresse = [],
+                AntallAnsatte = 1,
+                Selskapsform = "XY",
+                StiftelsesDato = new DateOnly(1996, 12, 8)
+            },
+            OriginalPower
         }
     };
 
@@ -167,20 +193,49 @@ public class BasicApiTests : IClassFixture<ApiFactory<Program>>
     [MemberData(nameof(TestNormalFlowData))]
     public async Task TestNormalFlow(
         string orgNo,
-        OrganizationModel firstCreate,
-        OrganizationModel firstCreateResult
+        OrganizationModel createData,
+        OrganizationModel createResult,
+        OrganizationModel updateData,
+        OrganizationModel updateResult,
+        OrganizationModel syncResult
     )
     {
         var client = Factory.CreateClient();
 
         var createResponse = await client.PostAsync(
             $"api/v1/organization/{orgNo}/create",
-            JsonContent.Create(firstCreate)
+            JsonContent.Create(createData)
         );
         createResponse.EnsureSuccessStatusCode();
         Assert.Equivalent(
-            firstCreateResult,
+            createResult,
             await createResponse.Content.ReadFromJsonAsync<OrganizationModel>()
+        );
+
+        var updateResponse = await client.PostAsync(
+            $"api/v1/organization/{orgNo}",
+            JsonContent.Create(updateData)
+        );
+        updateResponse.EnsureSuccessStatusCode();
+        Assert.Equivalent(
+            updateResult,
+            await updateResponse.Content.ReadFromJsonAsync<OrganizationModel>()
+        );
+
+        var getResponse = await client.GetAsync($"api/v1/organization/{orgNo}");
+        getResponse.EnsureSuccessStatusCode();
+        Assert.Equivalent(
+            updateResult,
+            await getResponse.Content.ReadFromJsonAsync<OrganizationModel>()
+        );
+
+        var syncResponse = await client.GetAsync(
+            $"api/v1/organization/{orgNo}/synchronize"
+        );
+        syncResponse.EnsureSuccessStatusCode();
+        Assert.Equivalent(
+            syncResult,
+            await syncResponse.Content.ReadFromJsonAsync<OrganizationModel>()
         );
 
         var deleteResponse = await client.DeleteAsync($"api/v1/organization/{orgNo}");
